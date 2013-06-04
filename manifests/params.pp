@@ -11,6 +11,7 @@ class postgresql::params {
         'RedHat': {
             $package_name = 'postgresql-server'
             $data_dir = '/var/lib/pgsql/data'
+            $pid_file = '/var/run/postmaster.5432.pid'
         }
         'Debian': {
             $package_name = 'postgresql'
@@ -28,9 +29,11 @@ class postgresql::params {
     case $::lsbdistcodename {
         'wheezy': {
             $data_dir = '/etc/postgresql/9.1/main'
+            $pid_file = '/var/run/postgresql/9.1-main.pid'
         }
         'squeeze': {
             $data_dir = '/etc/postgresql/8.4/main'
+            $pid_file = '/var/run/postgresql/8.4-main.pid'
         }
     }
 }

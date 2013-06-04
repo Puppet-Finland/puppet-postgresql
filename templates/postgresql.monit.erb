@@ -1,15 +1,4 @@
-<% if operatingsystem == "Redhat" %>
-# FIXME: make this dynamic
-check process postgresql with pidfile /var/run/postmaster.5432.pid
-<% elsif operatingsystem == "CentOS" %>
-# FIXME: make this dynamic
-check process postgresql with pidfile /var/run/postmaster.5432.pid
-<% elsif operatingsystem == "Fedora" %>
-# FIXME: make this dynamic
-check process postgresql with pidfile /var/run/postmaster.5432.pid
-<% else %>
-check process postgresql with pidfile /var/run/postgresql/8.4-main.pid
-<% end %>
+check process postgresql with pidfile <%= scope.lookupvar('postgresql::params::pid_file') %>
 
    start program = "service postgresql start"
    stop  program = "service postgresql stop"
