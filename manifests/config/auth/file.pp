@@ -11,6 +11,12 @@
 #    <%= line %>
 #    <% end -%>
 #
+#    Note that the initial $postgresql_auth_lines array has to be of length 2 or 
+#    more or Puppet (in it's stupidity/helpfulness?) will make it a string, 
+#    which will wreak hard to debug havoc in the pg_hba.conf.erb template when 
+#    the ERB parser tries to iterate over a string. See postgresql::config::auth 
+#    for more details.
+#
 # 2) The postgresql::config::auth class creates a basic pg_hba.conf using this
 #    define. At this point postgresql_auth_lines is empty. The name given to
 #    the define resource ('default-pg_hba.conf') is used by other modules
@@ -20,7 +26,7 @@
 #    They are able to locate the correct resource by it's title, like this:
 #
 #    Postgresql::Config::Auth::File <| title == 'default-pg_hba.conf' |> {
-#        postgresql_auth_lines +> '$postgresql_auth_line',
+#        postgresql_auth_lines +> "$postgresql_auth_line",
 #    }
 #
 # This same recipe can be adapted to any templates that need to get content from 
@@ -31,7 +37,7 @@
 # fact, if a service is removed from the node definition, it's pg_hba.conf entry 
 # goes away, too.
 #
-define postgresql::config::auth::file($postgresql_auth_lines=[]) {
+define postgresql::config::auth::file($postgresql_auth_lines) {
 
     include postgresql::params
 
