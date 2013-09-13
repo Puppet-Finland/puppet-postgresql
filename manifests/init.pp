@@ -24,6 +24,9 @@
 # 
 class postgresql {
 
+# Rationale for this is explained in init.pp of the sshd module
+if hiera('manage_postgresql') != 'false' {
+
     include postgresql::install
 
     # Include the RedHat-specific subclass, if necessary. This approach was 
@@ -39,5 +42,5 @@ class postgresql {
     if tagged('monit') {
         include postgresql::monit
     }
-
+}
 }
