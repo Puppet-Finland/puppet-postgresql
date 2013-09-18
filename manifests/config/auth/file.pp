@@ -13,14 +13,14 @@
 #
 #    Note that the initial $postgresql_auth_lines array has to be of length 2 or 
 #    more or Puppet (in it's stupidity/helpfulness?) will make it a string, 
-#    which will wreak hard to debug havoc in the pg_hba.conf.erb template when 
-#    the ERB parser tries to iterate over a string. See postgresql::config::auth 
-#    for more details.
+#    which will wreak havoc in the pg_hba.conf.erb template when the ERB parser 
+#    tries to iterate over a string. See postgresql::config::auth for more 
+#    details.
 #
 # 2) The postgresql::config::auth class creates a basic pg_hba.conf using this
-#    define. At this point postgresql_auth_lines is empty. The name given to
-#    the define resource ('default-pg_hba.conf') is used by other modules
-#    which need their own authentication lines.
+#    define. At this point postgresql_auth_lines is empty. The title given to 
+#    the define resource ('default-pg_hba.conf') is used by other modules which 
+#    need their own authentication lines.
 #
 # 3) Other modules (e.g. bacula) add content to the postgresql_auth_lines array.
 #    They are able to locate the correct resource by it's title, like this:
