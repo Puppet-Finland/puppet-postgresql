@@ -1,4 +1,8 @@
-check process postgresql with pidfile <%= scope.lookupvar('postgresql::params::pid_file') %>
+### THIS FILE IS MANAGED BY PUPPET. ANY MANUAL CHANGES WILL GET OVERWRITTEN.
 
-   start program = "service postgresql start"
-   stop  program = "service postgresql stop"
+check process postgresql with pidfile <%= scope.lookupvar('postgresql::params::pidfile') %>
+   start program = "<%= scope.lookupvar('postgresql::params::service_start') %>"
+   stop  program = "<%= scope.lookupvar('postgresql::params::service_stop') %>"
+   alert <%= scope.lookupvar('postgresql::monit::monitor_email') %> with reminder on 480 cycles
+
+

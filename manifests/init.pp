@@ -5,7 +5,9 @@
 #
 # == Parameters
 #
-# None at the moment
+# [*monitor_email*]
+#   Email address where local service monitoring software sends it's reports to. 
+#   Defaults to global variable $::servermonitor.
 #
 # == Examples
 #
@@ -22,7 +24,11 @@
 # BSD-lisence
 # See file LICENSE for details
 # 
-class postgresql {
+class postgresql
+(
+    $monitor_email = $::servermonitor
+)
+{
 
 # Rationale for this is explained in init.pp of the sshd module
 if hiera('manage_postgresql', 'true') != 'false' {
@@ -40,7 +46,9 @@ if hiera('manage_postgresql', 'true') != 'false' {
     include postgresql::service
 
     if tagged('monit') {
-        include postgresql::monit
+        class { 'postgresql::monit':
+            monitor_email => $monitor_email,
+        }
     }
 }
 }

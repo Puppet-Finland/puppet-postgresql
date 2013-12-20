@@ -11,14 +11,28 @@ class postgresql::params {
         'RedHat': {
             $package_name = 'postgresql-server'
             $data_dir = '/var/lib/pgsql/data'
-            $pid_file = '/var/run/postmaster.5432.pid'
+            $pidfile = '/var/run/postmaster.5432.pid'
+            $service_name = 'postgresql'
+
+            if $::operatingsystem == 'Fedora' {
+                $service_start = "/usr/bin/systemctl start ${service_name}.service"
+                $service_stop = "/usr/bin/systemctl stop ${service_name}.service"
+            } else {
+                $service_start = "/sbin/service $service_name start"
+                $service_stop = "/sbin/service $service_name stop"
+            }
         }
         'Debian': {
             $package_name = 'postgresql'
-
+            $service_name = 'postgresql'
+            $service_start = "/usr/sbin/service $service_name start"
+            $service_stop = "/usr/sbin/service $service_name stop"
         }
         default: {
             $package_name = 'postgresql'
+            $service_name = 'postgresql'
+            $service_start = "/usr/sbin/service $service_name start"
+            $service_stop = "/usr/sbin/service $service_name stop"
         }
     }
 
@@ -29,11 +43,11 @@ class postgresql::params {
     case $::lsbdistcodename {
         'wheezy': {
             $data_dir = '/etc/postgresql/9.1/main'
-            $pid_file = '/var/run/postgresql/9.1-main.pid'
+            $pidfile = '/var/run/postgresql/9.1-main.pid'
         }
         'squeeze': {
             $data_dir = '/etc/postgresql/8.4/main'
-            $pid_file = '/var/run/postgresql/8.4-main.pid'
+            $pidfile = '/var/run/postgresql/8.4-main.pid'
         }
     }
 }
