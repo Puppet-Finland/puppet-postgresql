@@ -16,10 +16,10 @@
 #
 # == Examples
 #
-# postgresql::loadsql { 'bacula-bacula-director.sql':
-#   modulename => 'bacula',
-#   basename => 'bacula-director',
-# }
+#   postgresql::loadsql { 'bacula-bacula-director.sql':
+#       modulename => 'bacula',
+#       basename => 'bacula-director',
+#   }
 #
 define postgresql::loadsql
 (
