@@ -29,10 +29,7 @@ class postgresql::params {
             $service_stop = "/usr/sbin/service $service_name stop"
         }
         default: {
-            $package_name = 'postgresql'
-            $service_name = 'postgresql'
-            $service_start = "/usr/sbin/service $service_name start"
-            $service_stop = "/usr/sbin/service $service_name stop"
+            fail("Unsupported operating system: ${::osfamily}/${::operatingsystem}")
         }
     }
 
@@ -41,6 +38,10 @@ class postgresql::params {
     # the databases are originally from an earlier version of Debian (e.g. the 
     # node was upgraded) then this logic will fail.
     case $::lsbdistcodename {
+        'trusty': {
+            $data_dir = '/etc/postgresql/9.3/main'
+            $pidfile = '/var/run/postgresql/9.3-main.pid'
+        }
         'wheezy': {
             $data_dir = '/etc/postgresql/9.1/main'
             $pidfile = '/var/run/postgresql/9.1-main.pid'
