@@ -1,0 +1,13 @@
+{
+  "name": "puppetfinland-postgresql",
+  "version": "0.3.0",
+  "author": "Puppet-Finland team",
+  "license": "BSD license",
+  "summary": "Setup postgresql"
+  "source": "https://github.com/Puppet-Finland/postgresql.git",
+  "project_page": "https://github.com/Puppet-Finland/postgresql",
+  "dependencies": [
+    { "name": "puppetfinland/monit", "version_requirement": ">= 0.5.0" },
+    { "name": "puppetfinland/packetfilter", "version_requirement": ">= 0.5.0" },
+  ]
+}
