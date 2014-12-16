@@ -11,6 +11,7 @@ class postgresql::params {
         'RedHat': {
             $package_name = 'postgresql-server'
             $data_dir = '/var/lib/pgsql/data'
+            $pg_hba_conf = "${data_dir}/pg_hba.conf"
             $pidfile = '/var/run/postmaster.5432.pid'
             $service_name = 'postgresql'
 
@@ -41,14 +42,17 @@ class postgresql::params {
         'trusty': {
             $data_dir = '/etc/postgresql/9.3/main'
             $pidfile = '/var/run/postgresql/9.3-main.pid'
+            $pg_hba_conf = "${data_dir}/pg_hba.conf"
         }
         'wheezy': {
             $data_dir = '/etc/postgresql/9.1/main'
             $pidfile = '/var/run/postgresql/9.1-main.pid'
+            $pg_hba_conf = "${data_dir}/pg_hba.conf"
         }
         'squeeze': {
             $data_dir = '/etc/postgresql/8.4/main'
             $pidfile = '/var/run/postgresql/8.4-main.pid'
+            $pg_hba_conf = "${data_dir}/pg_hba.conf"
         }
     }
 }
