@@ -14,6 +14,7 @@ class postgresql::params {
             $pg_hba_conf = "${data_dir}/pg_hba.conf"
             $pidfile = '/var/run/postmaster.5432.pid'
             $service_name = 'postgresql'
+            $daemon_user = 'postgres'
 
             if $::operatingsystem == 'Fedora' {
                 $service_start = "/usr/bin/systemctl start ${service_name}.service"
@@ -23,36 +24,30 @@ class postgresql::params {
                 $service_stop = "/sbin/service $service_name stop"
             }
         }
+
+        # ...and Debian/Ubuntu do. Therefore we need to accurately detect the 
+        # operating system to be able to place pg_hba.conf in the correct place. If 
+        # the databases are originally from an earlier version of Debian (e.g. the 
+        # node was upgraded) then this logic will fail.
         'Debian': {
+            case $::lsbdistcodename {
+                'trusty':            { $ver = 9.3 }
+                'wheezy', 'precise': { $ver = 9.1 }
+                'squeeze':           { $ver = 8.4 }
+                default:             { fail("Unsupported distribution: ${::lsbdistcodename}") }
+            }
+
             $package_name = 'postgresql'
+            $data_dir = "/etc/postgresql/${ver}/main"
+            $pg_hba_conf = "${data_dir}/pg_hba.conf"
+            $pidfile = "/var/run/postgresql/${ver}-main.pid"
             $service_name = 'postgresql'
             $service_start = "/usr/sbin/service $service_name start"
             $service_stop = "/usr/sbin/service $service_name stop"
+            $daemon_user = 'postgres'
         }
         default: {
             fail("Unsupported operating system: ${::osfamily}/${::operatingsystem}")
-        }
-    }
-
-    # ...and Debian/Ubuntu do. Therefore we need to accurately detect the 
-    # operating system to be able to place pg_hba.conf in the correct place. If 
-    # the databases are originally from an earlier version of Debian (e.g. the 
-    # node was upgraded) then this logic will fail.
-    case $::lsbdistcodename {
-        'trusty': {
-            $data_dir = '/etc/postgresql/9.3/main'
-            $pidfile = '/var/run/postgresql/9.3-main.pid'
-            $pg_hba_conf = "${data_dir}/pg_hba.conf"
-        }
-        'wheezy': {
-            $data_dir = '/etc/postgresql/9.1/main'
-            $pidfile = '/var/run/postgresql/9.1-main.pid'
-            $pg_hba_conf = "${data_dir}/pg_hba.conf"
-        }
-        'squeeze': {
-            $data_dir = '/etc/postgresql/8.4/main'
-            $pidfile = '/var/run/postgresql/8.4-main.pid'
-            $pg_hba_conf = "${data_dir}/pg_hba.conf"
         }
     }
 }

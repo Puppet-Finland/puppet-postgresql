@@ -8,6 +8,8 @@
 # [*monitor_email*]
 #   Email address where local service monitoring software sends it's reports to. 
 #   Defaults to global variable $::servermonitor.
+# [*backups*]
+#   A hash of postgresql::backup resources.
 #
 # == Examples
 #
@@ -27,12 +29,15 @@
 #
 class postgresql
 (
-    $monitor_email = $::servermonitor
+    $monitor_email = $::servermonitor,
+    $backups = {}
 )
 {
 
 # Rationale for this is explained in init.pp of the sshd module
 if hiera('manage_postgresql', 'true') != 'false' {
+
+    create_resources('postgresql::backup', $backups)
 
     include postgresql::install
 
