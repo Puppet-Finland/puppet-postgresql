@@ -51,7 +51,7 @@ define postgresql::backup
 
     include postgresql::params
 
-    $cron_command = "sudo -u ${::postgresql::params::daemon_user} pg_dump ${pg_dump_extra_params} ${database}|gzip > \"${output_dir}/${database}-full.sql.gz\""
+    $cron_command = "cd /tmp; sudo -u ${::postgresql::params::daemon_user} pg_dump ${pg_dump_extra_params} ${database}|gzip > \"${output_dir}/${database}-full.sql.gz\""
 
     cron { "postgresql-backup-${database}-cron":
         ensure => $ensure,
