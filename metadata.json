@@ -3,7 +3,7 @@
   "version": "0.3.0",
   "author": "Puppet-Finland team",
   "license": "BSD license",
-  "summary": "Setup postgresql"
+  "summary": "Setup postgresql",
   "source": "https://github.com/Puppet-Finland/postgresql.git",
   "project_page": "https://github.com/Puppet-Finland/postgresql",
   "dependencies": [
