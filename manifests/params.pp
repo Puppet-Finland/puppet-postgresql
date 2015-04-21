@@ -5,6 +5,8 @@
 #
 class postgresql::params {
 
+    include ::os::params
+
     # RedHat derivatives don't shuffle the postgresql database directory around 
     # depending on the server version...
     case $::osfamily {
