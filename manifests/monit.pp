@@ -8,7 +8,7 @@ class postgresql::monit
     $monitor_email
 )
 {
-	monit::fragment { 'postgresql-postgresql.monit':
-		modulename => 'postgresql',
-	}
+  monit::fragment { 'postgresql-postgresql.monit':
+    modulename => 'postgresql',
+  }
 }

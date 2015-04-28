@@ -9,7 +9,7 @@ class postgresql::initdb {
     exec { 'exec-postgresql-initdb':
         command => 'service postgresql initdb',
         creates => '/var/lib/pgsql/data',
-        path => [ '/usr/sbin', '/sbin' ],
+        path    => [ '/usr/sbin', '/sbin' ],
         require => Class['postgresql::install'],
     }
 }

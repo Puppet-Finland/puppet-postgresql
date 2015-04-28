@@ -11,11 +11,11 @@
 #
 # == Parameters
 #
+# [*database*]
+#   The database to back up.
 # [*ensure*]
 #   Status of the backup job. Either 'present' or 'absent'. Defaults to 
 #   'present'.
-# [*database*]
-#   The database to back up.
 # [*output_dir*]
 #   The directory where to output the files. Defaults to /var/backups/local.
 # [*pg_dump_extra_params*]
@@ -38,10 +38,10 @@
 #
 define postgresql::backup
 (
-    $ensure = 'present',
     $database,
+    $ensure = 'present',
     $output_dir = '/var/backups/local',
-    $pg_dump_extra_params = '',
+    $pg_dump_extra_params = undef,
     $hour = '01',
     $minute = '10',
     $weekday = '*',
@@ -49,22 +49,22 @@ define postgresql::backup
 )
 {
 
-    include postgresql::params
+    include ::postgresql::params
 
     $cron_command = "cd /tmp; sudo -u ${::postgresql::params::daemon_user} pg_dump ${pg_dump_extra_params} ${database}|gzip > \"${output_dir}/${database}-full.sql.gz\""
 
     cron { "postgresql-backup-${database}-cron":
-        ensure => $ensure,
-        command => $cron_command,
-        user => root,
-        hour => $hour,
-        minute => $minute,
-        weekday => $weekday,
+        ensure      => $ensure,
+        command     => $cron_command,
+        user        => root,
+        hour        => $hour,
+        minute      => $minute,
+        weekday     => $weekday,
         # Technically speaking this cronjob depends also on postgresql::install. 
         # However, the cronjob will fail not only when pg_dump is not installed, 
         # but also if the defined database has not been created when the cronjob 
         # runs. 
-        require => Class['localbackups'],
+        require     => Class['localbackups'],
         environment => [ 'PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin', "MAILTO=${email}" ],
     }
 }

@@ -5,6 +5,9 @@
 #
 # == Parameters
 #
+# [*manage*]
+#  Whether to manage postgresql with Puppet or not. Valid values are 'yes' 
+#  (default) and 'no'.
 # [*monitor_email*]
 #   Email address where local service monitoring software sends it's reports to. 
 #   Defaults to global variable $::servermonitor.
@@ -29,30 +32,30 @@
 #
 class postgresql
 (
+    $manage = 'yes',
     $monitor_email = $::servermonitor,
     $backups = {}
 )
 {
 
-# Rationale for this is explained in init.pp of the sshd module
-if hiera('manage_postgresql', 'true') != 'false' {
+if $manage == 'yes' {
 
     create_resources('postgresql::backup', $backups)
 
-    include postgresql::install
+    include ::postgresql::install
 
     # Include the RedHat-specific subclass, if necessary. This approach was 
     # chosen to avoid having to include a dummy Exec["postgresql-initdb"] on 
     # Debian/Ubuntu.
     if $::osfamily == 'RedHat' {
-        include postgresql::initdb
-	}
+        include ::postgresql::initdb
+  }
 
-    include postgresql::config
-    include postgresql::service
+    include ::postgresql::config
+    include ::postgresql::service
 
     if tagged('monit') {
-        class { 'postgresql::monit':
+        class { '::postgresql::monit':
             monitor_email => $monitor_email,
         }
     }

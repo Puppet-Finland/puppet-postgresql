@@ -28,26 +28,26 @@ define postgresql::loadsql
 )
 {
     file { "postgresql-${basename}.sql":
-        name => "${::postgresql::params::data_dir}/${basename}.sql",
+        ensure  => present,
+        name    => "${::postgresql::params::data_dir}/${basename}.sql",
         content => template("${modulename}/${basename}.sql.erb"),
-        ensure => present,
-        owner => postgres,
-        group => postgres,
-        mode => 600,
+        owner   => postgres,
+        group   => postgres,
+        mode    => '0600',
         # FIXME: this does not work as expected, i.e. tries to place the SQL 
         # file _before_ the proper data directory is present.
         require => Class['postgresql'],
     }
 
     exec { "postgresql-load-${basename}.sql":
-        command => "psql --file ${::postgresql::params::data_dir}/${basename}.sql",
+        command     => "psql --file ${::postgresql::params::data_dir}/${basename}.sql",
         # The 'postgres' user has fairly limited access to the filesystem, so we 
         # 'cd /tmp' to avoid getting false return values.
-        cwd => '/tmp',
-        path => [ '/usr/bin', '/usr/local/bin' ],
-        user => 'postgres',
-        require => File["postgresql-${basename}.sql"],
-        subscribe => File["postgresql-${basename}.sql"],
+        cwd         => '/tmp',
+        path        => [ '/usr/bin', '/usr/local/bin' ],
+        user        => 'postgres',
+        require     => File["postgresql-${basename}.sql"],
+        subscribe   => File["postgresql-${basename}.sql"],
         refreshonly => true,
     }
 }

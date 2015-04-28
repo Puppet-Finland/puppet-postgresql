@@ -1,4 +1,27 @@
-postgresql
-==========
+# postgresql
 
-A Puppet module to manage postgresql servers
+A Puppet module for managing postgresql servers
+
+# Module usage
+
+* [Class: postgresql](manifests/init.pp)
+* [Define: postgresql::backup](manifests/backup.pp)
+* [Define: postgresql::loadsql](manifests/loadsql.pp)
+
+# Dependencies
+
+See [metadata.json](metadata.json).
+
+# Operating system support
+
+This module has been tested on
+
+* Ubuntu 12.04
+* Debian 7 and 8
+
+The following operating systems should work out of the box or with small 
+modifications:
+
+* CentOS 6
+
+For details see [params.pp](manifests/params.pp).
