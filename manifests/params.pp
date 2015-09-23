@@ -12,6 +12,7 @@ class postgresql::params {
     case $::osfamily {
         'RedHat': {
             $package_name = 'postgresql-server'
+            $contrib_package_name = 'postgresql-contrib'
             $data_dir = '/var/lib/pgsql/data'
             $pg_hba_conf = "${data_dir}/pg_hba.conf"
             $pidfile = '/var/run/postmaster.5432.pid'
@@ -33,6 +34,7 @@ class postgresql::params {
             }
 
             $package_name = 'postgresql'
+            $contrib_package_name = 'postgresql-contrib'
             $data_dir = "/etc/postgresql/${ver}/main"
             $pg_hba_conf = "${data_dir}/pg_hba.conf"
             $pidfile = "/var/run/postgresql/${ver}-main.pid"
