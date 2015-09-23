@@ -4,9 +4,16 @@ A Puppet module for managing postgresql servers
 
 # Module usage
 
+Instructions for using the included classes and defines:
+
 * [Class: postgresql](manifests/init.pp)
 * [Define: postgresql::backup](manifests/backup.pp)
 * [Define: postgresql::loadsql](manifests/loadsql.pp)
+
+The bundled types and providers have been copied from puppetlabs/postgresql 
+(HEAD at 0ffbcc0). For usage instructions please refer here:
+
+* https://github.com/puppetlabs/puppetlabs-postgresql
 
 # Dependencies
 
@@ -25,3 +32,9 @@ modifications:
 * CentOS 6
 
 For details see [params.pp](manifests/params.pp).
+
+# License
+
+The classes and defines are licensed under the BSD license (see file 
+LICENSE.BSD). The types and providers are taken from puppetlabs-postgresql and 
+are covered by the Apache 2.0 license (see file LICENSE.APACHE).
