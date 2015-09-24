@@ -10,8 +10,7 @@ Instructions for using the included classes and defines:
 * [Define: postgresql::backup](manifests/backup.pp)
 * [Define: postgresql::loadsql](manifests/loadsql.pp)
 
-The bundled types and providers have been copied from puppetlabs/postgresql 
-(HEAD at 0ffbcc0). For usage instructions please refer here:
+Usage instructions for the bundled types and providers is here:
 
 * https://github.com/puppetlabs/puppetlabs-postgresql
 
@@ -35,6 +34,7 @@ For details see [params.pp](manifests/params.pp).
 
 # License
 
-The classes and defines are licensed under the BSD license (see file 
-LICENSE.BSD). The types and providers are taken from puppetlabs-postgresql and 
-are covered by the Apache 2.0 license (see file LICENSE.APACHE).
+Most classes and defines are licensed under the BSD license (see file 
+LICENSE.BSD). The types, providers and postgresql::softwarerepo class have been 
+taken from puppetlabs-postgresql (HEAD at 0ffbcc0). These files are thus covered 
+by the Apache 2.0 license (see file LICENSE.APACHE).

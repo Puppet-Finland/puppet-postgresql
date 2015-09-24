@@ -7,6 +7,9 @@ class postgresql::params {
 
     include ::os::params
 
+    # Latest release available in the postgresql apt/yum repositories
+    $latest_release = '9.4'
+
     # RedHat derivatives don't shuffle the postgresql database directory around 
     # depending on the server version...
     case $::osfamily {
@@ -15,6 +18,7 @@ class postgresql::params {
             $contrib_package_name = 'postgresql-contrib'
             $data_dir = '/var/lib/pgsql/data'
             $pg_hba_conf = "${data_dir}/pg_hba.conf"
+            $latest_pg_hba_conf = $pg_hba_conf
             $pidfile = '/var/run/postmaster.5432.pid'
             $service_name = 'postgresql'
             $daemon_user = 'postgres'
@@ -37,6 +41,7 @@ class postgresql::params {
             $contrib_package_name = 'postgresql-contrib'
             $data_dir = "/etc/postgresql/${ver}/main"
             $pg_hba_conf = "${data_dir}/pg_hba.conf"
+            $latest_pg_hba_conf = "/etc/postgresql/${latest_release}/main/pg_hba.conf"
             $pidfile = "/var/run/postgresql/${ver}-main.pid"
             $service_name = 'postgresql'
             $daemon_user = 'postgres'
