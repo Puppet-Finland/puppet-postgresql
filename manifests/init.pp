@@ -64,7 +64,8 @@ if $manage == 'yes' {
 
     if tagged('monit') {
         class { '::postgresql::monit':
-            monitor_email => $monitor_email,
+            use_latest_release => $use_latest_release,
+            monitor_email      => $monitor_email,
         }
     }
 

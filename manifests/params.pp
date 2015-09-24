@@ -20,6 +20,7 @@ class postgresql::params {
             $pg_hba_conf = "${data_dir}/pg_hba.conf"
             $latest_pg_hba_conf = $pg_hba_conf
             $pidfile = '/var/run/postmaster.5432.pid'
+            $latest_pidfile = $pidfile
             $service_name = 'postgresql'
             $daemon_user = 'postgres'
         }
@@ -43,6 +44,7 @@ class postgresql::params {
             $pg_hba_conf = "${data_dir}/pg_hba.conf"
             $latest_pg_hba_conf = "/etc/postgresql/${latest_release}/main/pg_hba.conf"
             $pidfile = "/var/run/postgresql/${ver}-main.pid"
+            $latest_pidfile = "/var/run/postgresql/${latest_release}-main.pid"
             $service_name = 'postgresql'
             $daemon_user = 'postgres'
         }

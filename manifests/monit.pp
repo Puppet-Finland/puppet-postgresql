@@ -5,10 +5,18 @@
 #
 class postgresql::monit
 (
+    $use_latest_release,
     $monitor_email
 )
 {
-  monit::fragment { 'postgresql-postgresql.monit':
-    modulename => 'postgresql',
-  }
+
+    $pidfile = $use_latest_release ? {
+        true    => $::postgresql::params::latest_pidfile,
+        false   => $::postgresql::params::pidfile,
+        default => $::postgresql::params::pidfile,
+    }
+
+    monit::fragment { 'postgresql-postgresql.monit':
+        modulename => 'postgresql',
+    }
 }
