@@ -12,7 +12,7 @@ class postgresql::install
 
     # Determine which package name to use
     $package_name = $use_latest_release ? {
-        true    => "${::postgresql::params::package_name}-${::postgresql::params::latest_release}",
+        true    => $::postgresql::params::latest_package_name,
         false   => $::postgresql::params::package_name,
         default => $::postgresql::params::package_name,
     }

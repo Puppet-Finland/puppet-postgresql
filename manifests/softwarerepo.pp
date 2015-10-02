@@ -14,6 +14,9 @@ class postgresql::softwarerepo
             'Debian': {
                 include ::postgresql::aptrepo
             }
+            'RedHat': {
+                include ::postgresql::yumrepo
+            }
             default: {
                 fail("Unsupported operating system ${::osfamily}")
             }

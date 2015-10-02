@@ -35,6 +35,7 @@ For details see [params.pp](manifests/params.pp).
 # License
 
 Most classes and defines are licensed under the BSD license (see file 
-LICENSE.BSD). The types, providers and postgresql::softwarerepo class have been 
-taken from puppetlabs-postgresql (HEAD at 0ffbcc0). These files are thus covered 
-by the Apache 2.0 license (see file LICENSE.APACHE).
+LICENSE.BSD). The types, providers and classes included from 
+postgresql::softwarerepo class have been taken from puppetlabs-postgresql (HEAD 
+at 0ffbcc0). These files are thus covered by the Apache 2.0 license (see file 
+LICENSE.APACHE).

@@ -9,20 +9,37 @@ class postgresql::params {
 
     # Latest release available in the postgresql apt/yum repositories
     $latest_release = '9.4'
+    $latest_release_alt = '94'
 
     # RedHat derivatives don't shuffle the postgresql database directory around 
     # depending on the server version...
     case $::osfamily {
         'RedHat': {
+            $daemon_user = 'postgres'
+
             $package_name = 'postgresql-server'
             $contrib_package_name = 'postgresql-contrib'
             $data_dir = '/var/lib/pgsql/data'
             $pg_hba_conf = "${data_dir}/pg_hba.conf"
-            $latest_pg_hba_conf = $pg_hba_conf
             $pidfile = '/var/run/postmaster.5432.pid'
-            $latest_pidfile = $pidfile
             $service_name = 'postgresql'
-            $daemon_user = 'postgres'
+            $initdb_cmd = $::operatingsystemmajrelease ? {
+                '7'     => 'postgresql-setup initdb',
+                '6'     => 'service postgresql initdb',
+                default => 'postgresql-setup initdb',
+            }
+
+            $latest_package_name = "postgresql${latest_release_alt}-server"
+            $latest_contrib_package_name = "postgresql${latest_release_alt}-contrib"
+            $latest_data_dir = "/var/lib/pgsql/${latest_release}/data"
+            $latest_pg_hba_conf = "${latest_data_dir}/pg_hba.conf"
+            $latest_pidfile = $pidfile
+            $latest_service_name = "postgresql-${latest_release}"
+            $latest_initdb_cmd = $::operatingsystemmajrelease ? {
+                '7'     => "/usr/pgsql-${latest_release}/bin/postgresql${latest_release_alt}-setup initdb",
+                '6'     => "service postgresql${latest_release_alt} initdb",
+                default => "/usr/pgsql-${latest_release}/bin/postgresql${latest_release_alt}-setup initdb",
+            }
         }
 
         # ...and Debian/Ubuntu do. Therefore we need to accurately detect the 
@@ -30,6 +47,7 @@ class postgresql::params {
         # the databases are originally from an earlier version of Debian (e.g. the 
         # node was upgraded) then this logic will fail.
         'Debian': {
+            # Latest version available in the distribution's own repositories
             case $::lsbdistcodename {
                 'jessie':            { $ver = 9.4 }
                 'trusty':            { $ver = 9.3 }
@@ -42,11 +60,14 @@ class postgresql::params {
             $contrib_package_name = 'postgresql-contrib'
             $data_dir = "/etc/postgresql/${ver}/main"
             $pg_hba_conf = "${data_dir}/pg_hba.conf"
-            $latest_pg_hba_conf = "/etc/postgresql/${latest_release}/main/pg_hba.conf"
             $pidfile = "/var/run/postgresql/${ver}-main.pid"
-            $latest_pidfile = "/var/run/postgresql/${latest_release}-main.pid"
             $service_name = 'postgresql'
             $daemon_user = 'postgres'
+
+            $latest_package_name = "postgresql-${latest_release}"
+            $latest_contrib_package_name = "postgresql-contrib-${latest_release}"
+            $latest_pg_hba_conf = "/etc/postgresql/${latest_release}/main/pg_hba.conf"
+            $latest_pidfile = "/var/run/postgresql/${latest_release}-main.pid"
         }
         default: {
             fail("Unsupported operating system: ${::osfamily}/${::operatingsystem}")
@@ -56,8 +77,12 @@ class postgresql::params {
     if str2bool($::has_systemd) {
         $service_start = "${::os::params::systemctl} start ${service_name}"
         $service_stop = "${::os::params::systemctl} stop ${service_name}"
+        $latest_service_start = "${::os::params::systemctl} start ${latest_service_name}"
+        $latest_service_stop = "${::os::params::systemctl} stop ${latest_service_name}"
     } else {
         $service_start = "${::os::params::service_cmd} ${service_name} start"
         $service_stop = "${::os::params::service_cmd} ${service_name} stop"
+        $latest_service_start = "${::os::params::service_cmd} ${latest_service_name} start"
+        $latest_service_stop = "${::os::params::service_cmd} ${latest_service_name} stop"
     }
 }

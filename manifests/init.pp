@@ -56,11 +56,16 @@ if $manage == 'yes' {
     # chosen to avoid having to include a dummy Exec["postgresql-initdb"] on 
     # Debian/Ubuntu.
     if $::osfamily == 'RedHat' {
-        include ::postgresql::initdb
+        class { '::postgresql::initdb':
+            use_latest_release => $use_latest_release,
+        }
     }
 
     include ::postgresql::config
-    include ::postgresql::service
+
+    class { '::postgresql::service':
+        use_latest_release => $use_latest_release,
+    }
 
     if tagged('monit') {
         class { '::postgresql::monit':
