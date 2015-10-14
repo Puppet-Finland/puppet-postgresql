@@ -28,7 +28,7 @@ class postgresql::yumrepo inherits postgresql::params {
       baseurl  => "http://yum.postgresql.org/${latest_release}/${label1}/${label2}-\$releasever-\$basearch",
       enabled  => 1,
       gpgcheck => 1,
-      gpgkey   => "file:///${gpg_key_path}",
+      gpgkey   => "file://${gpg_key_path}",
     }
 }
 
