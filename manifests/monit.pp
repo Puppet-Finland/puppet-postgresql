@@ -17,6 +17,7 @@ class postgresql::monit
     }
 
     monit::fragment { 'postgresql-postgresql.monit':
+        basename   => 'postgresql',
         modulename => 'postgresql',
     }
 }
