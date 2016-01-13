@@ -12,7 +12,7 @@
 # == Parameters
 #
 # [*database*]
-#   The database to back up.
+#   The database to back up. Defaults to the resource $title.
 # [*ensure*]
 #   Status of the backup job. Either 'present' or 'absent'. Defaults to 
 #   'present'.
@@ -38,7 +38,7 @@
 #
 define postgresql::backup
 (
-    $database,
+    $database = $title,
     $ensure = 'present',
     $output_dir = '/var/backups/local',
     $pg_dump_extra_params = undef,
