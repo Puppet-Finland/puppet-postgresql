@@ -1,8 +1,8 @@
 ### THIS FILE IS MANAGED BY PUPPET. ANY MANUAL CHANGES WILL GET OVERWRITTEN.
 
 check process postgresql with pidfile <%= scope['postgresql::monit::pidfile'] %>
-   start program = "<%= scope['postgresql::params::service_start'] %>"
-   stop  program = "<%= scope['postgresql::params::service_stop'] %>"
+   start program = "<%= scope['postgresql::monit::service_start'] %>"
+   stop  program = "<%= scope['postgresql::monit::service_stop'] %>"
    alert <%= scope['postgresql::monit::monitor_email'] %> with reminder on 480 cycles
 
 

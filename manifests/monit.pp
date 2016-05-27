@@ -7,13 +7,18 @@ class postgresql::monit
 (
     $use_latest_release,
     $monitor_email
-)
+
+) inherits postgresql::params
 {
 
-    $pidfile = $use_latest_release ? {
-        true    => $::postgresql::params::latest_pidfile,
-        false   => $::postgresql::params::pidfile,
-        default => $::postgresql::params::pidfile,
+    if $use_latest_release {
+        $pidfile = $::postgresql::params::latest_pidfile
+        $service_start = $::postgresql::params::latest_service_start
+        $service_stop = $::postgresql::params::latest_service_stop
+    } else {
+        $pidfile = $::postgresql::params::pidfile
+        $service_start = $::postgresql::params::service_start
+        $service_stop = $::postgresql::params::service_stop
     }
 
     monit::fragment { 'postgresql-postgresql.monit':

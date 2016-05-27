@@ -33,7 +33,7 @@ class postgresql::params {
             $latest_contrib_package_name = "postgresql${latest_release_alt}-contrib"
             $latest_data_dir = "/var/lib/pgsql/${latest_release}/data"
             $latest_pg_hba_conf = "${latest_data_dir}/pg_hba.conf"
-            $latest_pidfile = $pidfile
+            $latest_pidfile = "/var/lib/pgsql/${latest_release}/data/postmaster.pid"
             $latest_service_name = "postgresql-${latest_release}"
             $latest_initdb_cmd = $::operatingsystemmajrelease ? {
                 '7'     => "/usr/pgsql-${latest_release}/bin/postgresql${latest_release_alt}-setup initdb",
