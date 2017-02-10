@@ -68,7 +68,7 @@ class postgresql::params {
             $latest_contrib_package_name = "postgresql-contrib-${latest_release}"
             $latest_pg_hba_conf = "/etc/postgresql/${latest_release}/main/pg_hba.conf"
             $latest_pidfile = "/var/run/postgresql/${latest_release}-main.pid"
-            $latest_service_name = "postgresql"
+            $latest_service_name = 'postgresql'
         }
         default: {
             fail("Unsupported operating system: ${::osfamily}/${::operatingsystem}")
