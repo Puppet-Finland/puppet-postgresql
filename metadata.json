@@ -1,6 +1,6 @@
 {
   "name": "puppetfinland-postgresql",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "author": "Puppet-Finland team",
   "license": "BSD license",
   "summary": "Setup postgresql",
@@ -10,7 +10,6 @@
     { "name": "puppetfinland/monit", "version_requirement": ">= 0.5.0" },
     { "name": "puppetfinland/packetfilter", "version_requirement": ">= 0.5.0" },
     { "name": "puppetfinland/os", "version_requirement": ">= 0.5.5" },
-    { "name": "puppetfinland/localbackups", "version_requirement": ">= 0.5.0" },
     { "name": "puppetfinland/systemd", "version_requirement": ">= 0.1.0" }
   ]
 }
