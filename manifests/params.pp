@@ -49,6 +49,7 @@ class postgresql::params {
         'Debian': {
             # Latest version available in the distribution's own repositories
             case $::lsbdistcodename {
+                'xenial':            { $ver = 9.5 }
                 'jessie':            { $ver = 9.4 }
                 'trusty':            { $ver = 9.3 }
                 'wheezy', 'precise': { $ver = 9.1 }
