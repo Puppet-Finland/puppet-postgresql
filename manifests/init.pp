@@ -6,8 +6,10 @@
 # == Parameters
 #
 # [*manage*]
-#  Whether to manage postgresql with Puppet or not. Valid values are 'yes' 
-#  (default) and 'no'.
+#   Whether to manage postgresql with Puppet or not. Valid values are true
+#   (default) and false.
+# [*manage_monit*]
+#   Monitor postgresql with monit. Valid values are true (default) and false.
 # [*use_latest_release*]
 #   Whether to use the latest postgresql version from postgresql softaware 
 #   repositories. Valid values are true and false (default).
@@ -35,14 +37,15 @@
 #
 class postgresql
 (
-    $manage = 'yes',
-    $use_latest_release = false,
-    $monitor_email = $::servermonitor,
-    $backups = {}
+    Boolean $manage = true,
+    Boolean $manage_monit = true,
+    Boolean $use_latest_release = false,
+    String  $monitor_email = $::servermonitor,
+    Hash    $backups = {}
 )
 {
 
-if $manage == 'yes' {
+if $manage {
 
     class { '::postgresql::softwarerepo':
         use_latest_release => $use_latest_release,
@@ -67,7 +70,7 @@ if $manage == 'yes' {
         use_latest_release => $use_latest_release,
     }
 
-    if tagged('monit') {
+    if $manage_monit {
         class { '::postgresql::monit':
             use_latest_release => $use_latest_release,
             monitor_email      => $monitor_email,
