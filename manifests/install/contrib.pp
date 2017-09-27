@@ -5,7 +5,7 @@
 #
 class postgresql::install::contrib
 (
-    $use_latest_release
+    Boolean $use_latest_release = false
 
 ) inherits postgresql::params {
 
