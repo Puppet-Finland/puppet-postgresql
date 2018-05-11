@@ -21,8 +21,6 @@ matrix:
   fast_finish: true
   include:
     -
-      env: CHECK=rubocop
-    -
       env: CHECK="syntax lint"
     -
       env: CHECK=metadata_lint
