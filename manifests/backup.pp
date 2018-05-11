@@ -6,9 +6,6 @@
 # application (e.g. rsnapshot or bacula) fetches the latest local backups at 
 # regular intervals and no local versioning is thus necessary.
 # 
-# This define depends on the 'localbackups' class. Also, the 'postgresql' class 
-# has to be included or this define won't be found.
-#
 # == Parameters
 #
 # [*database*]
