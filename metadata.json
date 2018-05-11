@@ -2,7 +2,7 @@
   "name": "puppetfinland-postgresql",
   "version": "1.0.0",
   "author": "Puppet-Finland team",
-  "license": "BSD license",
+  "license": "BSD-2-Clause",
   "summary": "Setup postgresql",
   "source": "https://github.com/Puppet-Finland/postgresql.git",
   "project_page": "https://github.com/Puppet-Finland/postgresql",
