@@ -1,6 +1,6 @@
 {
   "name": "puppetfinland-postgresql",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Puppet-Finland team",
   "summary": "Setup postgresql",
   "license": "BSD-2-Clause",
