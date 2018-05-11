@@ -23,8 +23,8 @@
 #
 define postgresql::loadsql
 (
-    $basename,
-    $modulename=$basename
+    String $basename,
+    String $modulename=$basename
 )
 {
     file { "postgresql-${basename}.sql":

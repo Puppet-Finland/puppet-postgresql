@@ -35,14 +35,14 @@
 #
 define postgresql::backup
 (
-    $database = $title,
-    $ensure = 'present',
-    $output_dir = '/var/backups/local',
-    $pg_dump_extra_params = undef,
-    $hour = '01',
-    $minute = '10',
-    $weekday = '*',
-    $email = $::servermonitor
+    String                   $database = $title,
+    Enum['present','absent'] $ensure = 'present',
+    String                   $output_dir = '/var/backups/local',
+    Optiona[String]          $pg_dump_extra_params = undef,
+    Variant[Integer,String]  $hour = '01',
+    Variant[Integer,String]  $minute = '10',
+    Variant[Integer,String]  $weekday = '*',
+    String                   $email = $::servermonitor
 )
 {
 
