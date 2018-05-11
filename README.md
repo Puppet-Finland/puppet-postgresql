@@ -1,36 +1,45 @@
 # postgresql
 
-A Puppet module for managing postgresql servers
+A Puppet module for managing postgresql servers and configuring database dumps. 
+Reuses providers from puppetlabs-postgresql. Includes optional firewall and 
+monit support.
 
 # Module usage
 
-Instructions for using the included classes and defines:
+Setup latest postgresql version from the project's repositories:
 
-* [Class: postgresql](manifests/init.pp)
-* [Define: postgresql::backup](manifests/backup.pp)
-* [Define: postgresql::loadsql](manifests/loadsql.pp)
+    class { '::postgresql':
+      use_latest_release => true,
+    }
+
+Configure a backup job with default settings:
+
+    postgresql::backup { 'my_database_name': }
+
+Customize backup schedule:
+
+    postgresql::backup { 'my_database_name':
+      hour    => 4,
+      minute  => 45,
+      weekday => *',
+    }
+
+The $pg_dump_extra_params parameter can be used to customize the backup job 
+further.
+
+To load an SQL file (generally from another module):
+
+    postgresql::loadsql { 'bacula-bacula-director.sql':
+      modulename => 'bacula',
+      basename   => 'bacula-director',
+    }
+
+For details see [init.pp](manifests/init.pp), [backup.pp](manifests/backup.pp) 
+and [loadsql.pp](manifests/loadsql.pp)
 
 Usage instructions for the bundled types and providers is here:
 
 * https://github.com/puppetlabs/puppetlabs-postgresql
-
-# Dependencies
-
-See [metadata.json](metadata.json).
-
-# Operating system support
-
-This module has been tested on
-
-* Ubuntu 12.04
-* Debian 7 and 8
-
-The following operating systems should work out of the box or with small 
-modifications:
-
-* CentOS 6
-
-For details see [params.pp](manifests/params.pp).
 
 # License
 

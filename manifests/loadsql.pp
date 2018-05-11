@@ -14,13 +14,6 @@
 #   Name of the Puppet module where the template is located. Defaults to
 #   $basename.
 #
-# == Examples
-#
-#   postgresql::loadsql { 'bacula-bacula-director.sql':
-#       modulename => 'bacula',
-#       basename => 'bacula-director',
-#   }
-#
 define postgresql::loadsql
 (
     String $basename,
