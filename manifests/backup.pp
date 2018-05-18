@@ -51,7 +51,7 @@ define postgresql::backup
     $cron_command = "cd /tmp; sudo -u ${::postgresql::params::daemon_user} pg_dump ${pg_dump_extra_params} ${database}|gzip > \"${output_dir}/${database}-full.sql.gz\""
 
     # Several other modules will attempt ensure that this same directory exists
-    ensure_resource('file', $output_dir, { 'ensure' => 'directory' })
+    include ::localbackups
 
     cron { "postgresql-backup-${database}-cron":
         ensure      => $ensure,
