@@ -64,7 +64,7 @@ define postgresql::backup
         # However, the cronjob will fail not only when pg_dump is not installed, 
         # but also if the defined database has not been created when the cronjob 
         # runs. 
-        require     => File[$output_dir],
+        require     => Class['::localbackups'],
         environment => [ 'PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin', "MAILTO=${email}" ],
     }
 }
