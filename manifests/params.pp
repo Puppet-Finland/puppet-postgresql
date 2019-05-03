@@ -1,9 +1,9 @@
 #
-# == Class: postgresql::params
+# == Class: pf_postgresql::params
 #
 # Defines some variables based on the operating system
 #
-class postgresql::params {
+class pf_postgresql::params {
 
     include ::os::params
 
@@ -23,7 +23,7 @@ class postgresql::params {
             $pg_hba_conf = "${data_dir}/pg_hba.conf"
             $pidfile = '/var/run/postmaster.5432.pid'
             $service_name = 'postgresql'
-            $initdb_cmd = $::operatingsystemmajrelease ? {
+            $initdb_cmd = $::pf_operatingsystemmajrelease ? {
                 '7'     => 'postgresql-setup initdb',
                 '6'     => 'service postgresql initdb',
                 default => 'postgresql-setup initdb',
@@ -35,7 +35,7 @@ class postgresql::params {
             $latest_pg_hba_conf = "${latest_data_dir}/pg_hba.conf"
             $latest_pidfile = "/var/lib/pgsql/${latest_release}/data/postmaster.pid"
             $latest_service_name = "postgresql-${latest_release}"
-            $latest_initdb_cmd = $::operatingsystemmajrelease ? {
+            $latest_initdb_cmd = $::pf_operatingsystemmajrelease ? {
                 '7'     => "/usr/pgsql-${latest_release}/bin/postgresql${latest_release_alt}-setup initdb",
                 '6'     => "service postgresql${latest_release_alt} initdb",
                 default => "/usr/pgsql-${latest_release}/bin/postgresql${latest_release_alt}-setup initdb",

@@ -1,12 +1,12 @@
 #
-# == Class: postgresql::yumrepo
+# == Class: pf_postgresql::yumrepo
 #
 # Enable postgresql's official yum repositories. Adapted from 
 # puppetlabs/postgresql's postgresql::repo::yum_postgresql_org class.
 #
-class postgresql::yumrepo inherits postgresql::params {
+class pf_postgresql::yumrepo inherits pf_postgresql::params {
 
-    $latest_release = $::postgresql::params::latest_release
+    $latest_release = $::pf_postgresql::params::latest_release
 
     $gpg_key_path = "/etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG-${latest_release}"
 
@@ -24,7 +24,7 @@ class postgresql::yumrepo inherits postgresql::params {
     }
 
     yumrepo { 'yum.postgresql.org':
-      descr    => "PostgreSQL ${::postgresql::params::latest_release} \$releasever - \$basearch",
+      descr    => "PostgreSQL ${::pf_postgresql::params::latest_release} \$releasever - \$basearch",
       baseurl  => "http://yum.postgresql.org/${latest_release}/${label1}/${label2}-\$releasever-\$basearch",
       enabled  => 1,
       gpgcheck => 1,

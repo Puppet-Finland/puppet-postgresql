@@ -1,5 +1,5 @@
 #
-# == Class: postgresql
+# == Class: pf_postgresql
 #
 # Install and configure postgresql server
 #
@@ -21,7 +21,7 @@
 #
 # == Examples
 #
-#    include postgresql
+#    include pf_postgresql
 #
 # == Authors
 #
@@ -35,7 +35,7 @@
 #
 # BSD-license. See file LICENSE for details.
 #
-class postgresql
+class pf_postgresql
 (
     Boolean $manage = true,
     Boolean $manage_monit = true,
@@ -47,11 +47,11 @@ class postgresql
 
 if $manage {
 
-    class { '::postgresql::softwarerepo':
+    class { '::pf_postgresql::softwarerepo':
         use_latest_release => $use_latest_release,
     }
 
-    class { '::postgresql::install':
+    class { '::pf_postgresql::install':
         use_latest_release => $use_latest_release,
     }
 
@@ -59,24 +59,24 @@ if $manage {
     # chosen to avoid having to include a dummy Exec["postgresql-initdb"] on 
     # Debian/Ubuntu.
     if $::osfamily == 'RedHat' {
-        class { '::postgresql::initdb':
+        class { '::pf_postgresql::initdb':
             use_latest_release => $use_latest_release,
         }
     }
 
-    include ::postgresql::config
+    include ::pf_postgresql::config
 
-    class { '::postgresql::service':
+    class { '::pf_postgresql::service':
         use_latest_release => $use_latest_release,
     }
 
     if $manage_monit {
-        class { '::postgresql::monit':
+        class { '::pf_postgresql::monit':
             use_latest_release => $use_latest_release,
             monitor_email      => $monitor_email,
         }
     }
 
-    create_resources('postgresql::backup', $backups)
+    create_resources('pf_postgresql::backup', $backups)
 }
 }
