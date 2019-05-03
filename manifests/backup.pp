@@ -1,5 +1,5 @@
 #
-# == Define: postgresql::backup
+# == Define: pf_postgresql::backup
 #
 # Dump PostGreSQL databases to a directory using pg_dump and compress them using 
 # gzip. New dumps overwrite the old ones, the idea being that a backup 
@@ -48,7 +48,7 @@ define postgresql::backup
 
     include ::postgresql::params
 
-    $cron_command = "cd /tmp; sudo -u ${::postgresql::params::daemon_user} pg_dump ${pg_dump_extra_params} ${database}|gzip > \"${output_dir}/${database}-full.sql.gz\""
+    $cron_command = "cd /tmp; sudo -u ${::pf_postgresql::params::daemon_user} pg_dump ${pg_dump_extra_params} ${database}|gzip > \"${output_dir}/${database}-full.sql.gz\""
 
     # Several other modules will attempt ensure that this same directory exists
     include ::localbackups

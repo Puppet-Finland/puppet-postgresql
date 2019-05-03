@@ -14,7 +14,7 @@
 #   Name of the Puppet module where the template is located. Defaults to
 #   $basename.
 #
-define postgresql::loadsql
+define pf_postgresql::loadsql
 (
     String $basename,
     String $modulename=$basename
@@ -22,25 +22,25 @@ define postgresql::loadsql
 {
     file { "postgresql-${basename}.sql":
         ensure  => present,
-        name    => "${::postgresql::params::data_dir}/${basename}.sql",
+        name    => "${::pf_postgresql::params::data_dir}/${basename}.sql",
         content => template("${modulename}/${basename}.sql.erb"),
         owner   => postgres,
         group   => postgres,
         mode    => '0600',
         # FIXME: this does not work as expected, i.e. tries to place the SQL 
         # file _before_ the proper data directory is present.
-        require => Class['postgresql'],
+        require => Class['pf_postgresql'],
     }
 
     exec { "postgresql-load-${basename}.sql":
-        command     => "psql --file ${::postgresql::params::data_dir}/${basename}.sql",
+        command     => "psql --file ${::pf_postgresql::params::data_dir}/${basename}.sql",
         # The 'postgres' user has fairly limited access to the filesystem, so we 
         # 'cd /tmp' to avoid getting false return values.
         cwd         => '/tmp',
         path        => [ '/usr/bin', '/usr/local/bin' ],
         user        => 'postgres',
-        require     => File["postgresql-${basename}.sql"],
-        subscribe   => File["postgresql-${basename}.sql"],
+        require     => File["pf_postgresql-${basename}.sql"],
+        subscribe   => File["pf_postgresql-${basename}.sql"],
         refreshonly => true,
     }
 }

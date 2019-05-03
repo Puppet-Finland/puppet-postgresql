@@ -1,5 +1,5 @@
 #
-# == Class: postgresql::initdb
+# == Class: pf_postgresql::initdb
 #
 # Initialize/create the postgresql database directory. This is needed on RedHat 
 # family of operating systems, but not on Debian derivatives.
