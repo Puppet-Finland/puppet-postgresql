@@ -1,5 +1,5 @@
 #
-# == Define: postgresql::loadsql
+# == Define: pf_postgresql::loadsql
 #
 # Load an SQL file using pgsql. Useful for things like creating users and 
 # databases. The convention is to place the SQL files to the postgres 
@@ -39,8 +39,8 @@ define pf_postgresql::loadsql
         cwd         => '/tmp',
         path        => [ '/usr/bin', '/usr/local/bin' ],
         user        => 'postgres',
-        require     => File["pf_postgresql-${basename}.sql"],
-        subscribe   => File["pf_postgresql-${basename}.sql"],
+        require     => File["postgresql-${basename}.sql"],
+        subscribe   => File["postgresql-${basename}.sql"],
         refreshonly => true,
     }
 }

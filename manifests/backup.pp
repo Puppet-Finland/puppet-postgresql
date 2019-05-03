@@ -29,11 +29,11 @@
 #
 # == Examples
 #
-#   postgresql::backup { 'trac_database':
+#   pf_postgresql::backup { 'trac_database':
 #       database => 'trac',
 #   }
 #
-define postgresql::backup
+define pf_postgresql::backup
 (
     String                                                              $database = $title,
     Enum['present','absent']                                            $ensure = 'present',
@@ -46,7 +46,7 @@ define postgresql::backup
 )
 {
 
-    include ::postgresql::params
+    include ::pf_postgresql::params
 
     $cron_command = "cd /tmp; sudo -u ${::pf_postgresql::params::daemon_user} pg_dump ${pg_dump_extra_params} ${database}|gzip > \"${output_dir}/${database}-full.sql.gz\""
 

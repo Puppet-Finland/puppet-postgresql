@@ -23,6 +23,6 @@ class pf_postgresql::monit
 
     monit::fragment { 'postgresql-postgresql.monit':
         basename   => 'postgresql',
-        modulename => 'postgresql',
+        modulename => 'pf_postgresql',
     }
 }
