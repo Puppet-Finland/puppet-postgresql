@@ -1,25 +1,25 @@
 #
-# == Class: postgresql::install
+# == Class: pf_postgresql::install
 #
 # Install posgresql server
 #
-class postgresql::install
+class pf_postgresql::install
 (
     $use_latest_release
 
-) inherits postgresql::params
+) inherits pf_postgresql::params
 {
 
     # Determine which package name to use
     $package_name = $use_latest_release ? {
-        true    => $::postgresql::params::latest_package_name,
-        false   => $::postgresql::params::package_name,
-        default => $::postgresql::params::package_name,
+        true    => $::pf_postgresql::params::latest_package_name,
+        false   => $::pf_postgresql::params::package_name,
+        default => $::pf_postgresql::params::package_name,
     }
 
     package { 'postgresql-postgresql-server':
         ensure  => installed,
         name    => $package_name,
-        require => Class['postgresql::softwarerepo'],
+        require => Class['pf_postgresql::softwarerepo'],
     }
 }

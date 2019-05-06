@@ -8,17 +8,17 @@ monit support.
 
 Setup latest postgresql version from the project's repositories:
 
-    class { '::postgresql':
+    class { '::pf_postgresql':
       use_latest_release => true,
     }
 
 Configure a backup job with default settings:
 
-    postgresql::backup { 'my_database_name': }
+    pf_postgresql::backup { 'my_database_name': }
 
 Customize backup schedule:
 
-    postgresql::backup { 'my_database_name':
+    pf_postgresql::backup { 'my_database_name':
       hour    => 4,
       minute  => 45,
       weekday => *',
@@ -29,7 +29,7 @@ further.
 
 To load an SQL file (generally from another module):
 
-    postgresql::loadsql { 'bacula-bacula-director.sql':
+    pf_postgresql::loadsql { 'bacula-bacula-director.sql':
       modulename => 'bacula',
       basename   => 'bacula-director',
     }

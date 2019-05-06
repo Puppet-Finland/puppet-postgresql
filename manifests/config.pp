@@ -1,5 +1,5 @@
 #
-# == Class: postgresql::config
+# == Class: pf_postgresql::config
 #
 # Configure postgresql. Currently this class does nothing, but in the past it
 # included postgresql::config::auth class, which used a fancy array-appending
@@ -39,6 +39,6 @@
 # numeric identifier - like 0434 above - is probably the safest bet to avoid
 # identifier collisions.
 #
-class postgresql::config {
+class pf_postgresql::config {
     # Empty
 }

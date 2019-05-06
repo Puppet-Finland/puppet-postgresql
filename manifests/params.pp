@@ -1,9 +1,9 @@
 #
-# == Class: postgresql::params
+# == Class: pf_postgresql::params
 #
 # Defines some variables based on the operating system
 #
-class postgresql::params {
+class pf_postgresql::params {
 
     include ::os::params
 

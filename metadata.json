@@ -1,5 +1,5 @@
 {
-  "name": "puppetfinland-postgresql",
+  "name": "puppetfinland-pf_postgresql",
   "version": "1.0.4",
   "author": "Puppet-Finland team",
   "summary": "Setup postgresql",

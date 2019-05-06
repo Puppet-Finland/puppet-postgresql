@@ -1,10 +1,10 @@
 #
-# == Class: postgresql::aptrepo
+# == Class: pf_postgresql::aptrepo
 #
 # Enable postgresql's official apt repositories. Adapted from 
 # postgresql::repo::apt_postgresql_org
 #
-class postgresql::aptrepo inherits postgresql::params {
+class pf_postgresql::aptrepo inherits pf_postgresql::params {
 
     include ::apt
 
