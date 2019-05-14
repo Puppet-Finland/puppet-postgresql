@@ -3,6 +3,6 @@
 check process postgresql with pidfile <%= scope['pf_postgresql::monit::pidfile'] %>
    start program = "<%= scope['pf_postgresql::monit::service_start'] %>"
    stop  program = "<%= scope['pf_postgresql::monit::service_stop'] %>"
-   alert <%= scope['postgresql::monit::monitor_email'] %> with reminder on 480 cycles
+   alert <%= scope['pf_postgresql::monit::monitor_email'] %> with reminder on 480 cycles
 
 
