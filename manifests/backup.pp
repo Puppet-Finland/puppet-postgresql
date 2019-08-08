@@ -50,9 +50,6 @@ define pf_postgresql::backup
 
     $cron_command = "cd /tmp; sudo -u ${::pf_postgresql::params::daemon_user} pg_dump ${pg_dump_extra_params} ${database}|gzip > \"${output_dir}/${database}-full.sql.gz\""
 
-    # Several other modules will attempt ensure that this same directory exists
-    include ::localbackups
-
     cron { "postgresql-backup-${database}-cron":
         ensure      => $ensure,
         command     => $cron_command,
@@ -64,7 +61,6 @@ define pf_postgresql::backup
         # However, the cronjob will fail not only when pg_dump is not installed, 
         # but also if the defined database has not been created when the cronjob 
         # runs. 
-        require     => Class['::localbackups'],
         environment => [ 'PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin', "MAILTO=${email}" ],
     }
 }
