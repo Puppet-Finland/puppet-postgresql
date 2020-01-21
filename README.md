@@ -24,6 +24,14 @@ Customize backup schedule:
       weekday => *',
     }
 
+Backup a remote database:
+
+    pf_postgresql::backup { 'my_database_name':
+      username   => 'dbuser',
+      host       => 'dbhost',
+      pgpassword => 'secret',
+    }
+
 The $pg_dump_extra_params parameter can be used to customize the backup job 
 further.
 

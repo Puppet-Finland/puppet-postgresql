@@ -49,6 +49,7 @@ class pf_postgresql::params {
         'Debian': {
             # Latest version available in the distribution's own repositories
             case $::lsbdistcodename {
+                'bionic':            { $ver = 9.6 }
                 'xenial':            { $ver = 9.5 }
                 'jessie':            { $ver = 9.4 }
                 'trusty':            { $ver = 9.3 }

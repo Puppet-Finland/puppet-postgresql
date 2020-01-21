@@ -42,13 +42,40 @@ define pf_postgresql::backup
     Variant[Array[String], Array[Integer[0-23]], String, Integer[0-23]] $hour = '01',
     Variant[Array[String], Array[Integer[0-59]], String, Integer[0-59]] $minute = '10',
     Variant[Array[String], Array[Integer[0-7]],  String, Integer[0-7]]  $weekday = '*',
-    String                                                              $email = $::servermonitor
+    String                                                              $email = $::servermonitor,
+    Optional[String]                                                    $host = undef,
+    Optional[String]                                                    $username = undef,
+    Optional[String]                                                    $pgpassword = undef,
 )
 {
 
     include ::pf_postgresql::params
 
-    $cron_command = "cd /tmp; sudo -u ${::pf_postgresql::params::daemon_user} pg_dump ${pg_dump_extra_params} ${database}|gzip > \"${output_dir}/${database}-full.sql.gz\""
+    # User, host and PGPASSWORD are generally only needed when taking backups
+    # from a remote serversuch as RDS
+    $username_opt = $username ? {
+      undef   => '',
+      default => "-U ${username}",
+    }
+
+    # We don't need sudo if we're backing up a remote database
+    if $host {
+      $host_opt =  "-h ${host}"
+      $sudo_opt = ''
+    } else {
+      $host_opt = ''
+      $sudo_opt = "sudo -u ${::pf_postgresql::params::daemon_user}"
+    }
+
+    $base_env = ['PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin', "MAILTO=${email}"]
+
+    if $pgpassword {
+      $cron_env = ["PGPASSWORD=${pgpassword}"] + $base_env
+    } else {
+      $cron_env = $base_env
+    }
+
+    $cron_command = "cd /tmp; ${sudo_opt} pg_dump ${pg_dump_extra_params} ${host_opt} ${username_opt} ${database}|gzip > \"${output_dir}/${database}-full.sql.gz\"" # lint:ignore:140chars
 
     cron { "postgresql-backup-${database}-cron":
         ensure      => $ensure,
@@ -61,6 +88,6 @@ define pf_postgresql::backup
         # However, the cronjob will fail not only when pg_dump is not installed, 
         # but also if the defined database has not been created when the cronjob 
         # runs. 
-        environment => [ 'PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin', "MAILTO=${email}" ],
+        environment => $cron_env,
     }
 }
