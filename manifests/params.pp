@@ -77,7 +77,7 @@ class pf_postgresql::params {
         }
     }
 
-    if str2bool($::has_systemd) {
+    if $::systemd {
         $service_start = "${::os::params::systemctl} start ${service_name}"
         $service_stop = "${::os::params::systemctl} stop ${service_name}"
         $latest_service_start = "${::os::params::systemctl} start ${latest_service_name}"
