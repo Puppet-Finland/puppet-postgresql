@@ -13,6 +13,8 @@
 # [*ensure*]
 #   Status of the backup job. Either 'present' or 'absent'. Defaults to 
 #   'present'.
+# [*pg_dump*]
+#   Path to pg_dump. Defaults to 'pg_dump'.
 # [*output_dir*]
 #   The directory where to output the files. Defaults to /var/backups/local.
 # [*pg_dump_extra_params*]
@@ -38,6 +40,7 @@ define pf_postgresql::backup
     String                                                              $database = $title,
     Enum['present','absent']                                            $ensure = 'present',
     String                                                              $output_dir = '/var/backups/local',
+    Optional[String]                                                    $pg_dump = 'pg_dump',
     Optional[String]                                                    $pg_dump_extra_params = undef,
     Variant[Array[String], Array[Integer[0-23]], String, Integer[0-23]] $hour = '01',
     Variant[Array[String], Array[Integer[0-59]], String, Integer[0-59]] $minute = '10',
@@ -75,7 +78,7 @@ define pf_postgresql::backup
       $cron_env = $base_env
     }
 
-    $cron_command = "cd /tmp; ${sudo_opt} pg_dump ${pg_dump_extra_params} ${host_opt} ${username_opt} ${database}|gzip > \"${output_dir}/${database}-full.sql.gz\"" # lint:ignore:140chars
+    $cron_command = "cd /tmp; ${sudo_opt} ${pg_dump} ${pg_dump_extra_params} ${host_opt} ${username_opt} ${database}|gzip > \"${output_dir}/${database}-full.sql.gz\"" # lint:ignore:140chars
 
     cron { "postgresql-backup-${database}-cron":
         ensure      => $ensure,
